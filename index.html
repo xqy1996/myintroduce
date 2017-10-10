@@ -5,7 +5,14 @@
 <title>无标题文档</title>
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
 <script src="jquery/jquery-3.2.1.min.js"></script>
+
 <script src="bootstrap/js/bootstrap.min.js"></script>
+<style>
+  a{
+	  cursor:pointer;
+	  }
+	
+</style>
 </head>
 
 <body>
@@ -14,7 +21,7 @@
 		<div class="col-md-12 column">
 			<nav class="navbar navbar-default" role="navigation">
 				<div class="navbar-header">
-					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">导航</a>
+					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="">导航</a>
 				</div>
 				
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -24,24 +31,45 @@
 						<li>
 							 <a href="">首页</a>
 						</li>
+                        <li>
+							 <a href="#/article/">技术文献</a>
+						</li>
                    
-                      
+                      	<li>
+							 <a href="intro.html">我的简历</a>
+						</li>
+						<li>
+							 <a href="#/myPhoto/">我的图片</a>
+						</li>
 						<li class="dropdown">
-							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">菜单<strong class="caret"></strong></a>
+							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">我的demo<strong class="caret"></strong></a>
 							<ul class="dropdown-menu">
+							
 								<li>
-									 <a href="intro.html">我的简历</a>
+									 <a href="#/cznr/">文字查找</a>
 								</li>
+                                <li>
+									 <a href="#/tplb/">图片轮播</a>
+								</li>
+                                 <li>
+									 <a href="#/pf/">星星评分</a>
+								</li>
+                                <li>
+                                     <a href="#/time/">时间显示</a>
+                                </li>
+                                <li>
+                                     <a href="#/drop/">下落动画</a>
+                                </li>
+                                <li>
+                                     <a href="#/css3/">CSS3动画</a>
+                                </li>
+                                
+                                <li class="divider">
+								
+                                </li>
+							
 								<li>
-									 <a href="#/myPhoto/">我的图片</a>
-								</li>
-								<li>
-									 <a href="#">Something else here</a>
-								</li>
-								<li class="divider">
-								</li>
-								<li>
-									 <a href="#">Separated link</a>
+									 <a href="#">更多</a>
 								</li>
 							</ul>
 						</li>
@@ -49,41 +77,113 @@
 				</div>
 				
 			</nav>
-			<div class="jumbotron">
-				 <h2  style="text-align:center">welcome to my blog</h2>
+			<div class="jumbotron" style="position:relative">
+				 <h2  style="text-align:center">Welcome to my blog</h2>
 		   </div>
 		<div class="col-md-4 column">
 			<h2>
-				Heading
+				Thanks For Your Comming
 			</h2>
 			<p>
-				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+				如果想了解更多欢迎通过我的<a title="我的微博"  
+			data-container="body" data-toggle="popover" data-placement="bottom"  data-html="true"
+			data-content="<a target='_blank' href='http://www.weibo.com'>@徐钦扬我系外星人</a>">微博</a> <a title="我的邮箱"  
+			data-container="body" data-toggle="popover" data-placement="bottom"  data-html="true"
+			data-content="<a target='_blank' href='https://mail.qq.com/'>604888149@qq.com</a>">邮箱</a> 
+             <a title="我的微信"  
+			data-container="body" data-toggle="popover" data-placement="bottom"  data-html="true"
+			data-content="<img src='img/weixin.png'>">微信</a>联系我
 			</p>
-			<p>
-				 <a class="btn" href="#">View details »</a>
-			</p>
+
 		</div>
 	</div>
 </div>
 <script>
 $(function(){
+
+	$("[data-toggle='popover']").popover();
 window.addEventListener('hashchange',function(e){
 	var hash=window.location.hash;
-	switch(hash){
-	 case '#/myPhoto/':showPhoto()
+	 switch(hash){
+     case '#/drop/':ajaxload("zujian/drop.html",".jumbotron")
 	 break;
-	 
+	 case '#/css3/':ajaxload("zujian/css3Animate.html",".jumbotron")
+	 break;
+	 case '#/time/':ajaxload("zujian/time.html",".jumbotron");time();
+	 break;
+	 case '#/myPhoto/':ajaxload("myPhoto.html",".jumbotron");
+	 break;
+	 case '#/cznr/':ajaxload("zujian/cznr.html",".jumbotron")
+	 break;
+	 case "#/tplb/":ajaxload("zujian/imgplay.html",".jumbotron");lb();
+	 break;
+	 case "#/pf/":ajaxload("zujian/evaluate.html",".jumbotron")
+	 break;
+	 case "#/article/":ajaxload("wenzhang/article.html",".jumbotron")
+	 break;
+	 case "#/article/yxl/":ajaxload("wenzhang/yxl.html",".jumbotron")
+	 break;
+	 case "#/article/zyyl/":ajaxload("wenzhang/zyyl.html",".jumbotron")
+	 break;
+	 case "#/article/llqky/":ajaxload("wenzhang/llqky.html",".jumbotron")
+	 break;
+	 case "#/article/jc/":ajaxload("wenzhang/jicheng.html",".jumbotron")
+	 break;
 	}
 	})
-function showPhoto(){
-	ajaxload("myPhoto.html",".jumbotron");
-	return false;
-	}
+
  function ajaxload(local,where){
 	      htmlobj=$.ajax({url:local,async:false});
 	      $(where).html(htmlobj.responseText);
 	  }
+ 
 })
+function lb(){
+	
+   var time=setInterval(function(){
+	   if($('#box1').length>0){
+	   
+	left=parseInt(box1.offsetLeft-100)
+	
+    $('#box1').animate({left:left+'px'},1000,function(){
+		 if(parseInt($('#box1').css('left'))==-200){
+		$('#box1').css('left','0')
+	      }
+		})
+	   }
+	   },2000)
+	
+}
+function time(){
+
+fnTime();
+var timer=null;
+
+setInterval(fnTime,1000);
+function fnTime(){
+if($(".time").length>0){
+var myTime=new Date();
+var iHours=myTime.getHours();
+var iMin=myTime.getMinutes();
+var iSec=myTime.getSeconds()
+var img=document.querySelectorAll('.time')
+
+var str='';
+str=toTwo(iHours)+toTwo(iMin)+toTwo(iSec);
+img.item(0).src='time/'+str.charAt(0)+'.JPG'
+img.item(1).src='time/'+str.charAt(1)+'.JPG'
+img.item(3).src='time/'+str.charAt(2)+'.JPG'
+img.item(4).src='time/'+str.charAt(3)+'.JPG'
+img.item(6).src='time/'+str.charAt(4)+'.JPG'
+img.item(7).src='time/'+str.charAt(5)+'.JPG'
+}
+}
+
+function toTwo(num){
+
+return num<10?'0'+num:''+num;
+	}
+}
 </script>
 </body>
 </html>

@@ -1,0 +1,88 @@
+
+<style>
+#div1{
+	
+	height:182px;
+    background:white;
+	position:relative;}
+#span1{
+	color:red;
+	margin-left:20px;
+	}
+span{
+ font-size:50px;
+ line-height:182px;
+	
+	}
+img{
+	position:absolute;
+	top:45px;
+	}
+div2{
+	height:182px;
+	line-height:182px;
+	float:left;
+	}
+#span2{
+	position:absolute;
+	left: 662px;
+	top: 0px;
+	color:#FC3
+	}
+</style>
+
+<div id="div1">
+<span id="span1">*</span><span>总体评价:</span>
+<img src="img/空五角星.png"/>
+<img src="img/空五角星.png"/>
+<img src="img/空五角星.png"/>
+<img src="img/空五角星.png"/>
+<img src="img/空五角星.png"/>
+<span id="span2"></span>
+</div>
+<script>
+var arr=['很差','较差','还行','不错','力荐']
+var div1=document.getElementById('div1');
+var img=document.getElementsByTagName('img');
+var span2=document.getElementById('span2');
+var str=false;
+for(var i=0;i<img.length;i++){
+	img[i].style.left=250+i*80+'px';
+
+	}
+	
+for(var i=0;i<img.length;i++){	
+		img[i].index=i;
+	img[i].onmouseover=function(){
+		str=false;
+		span2.innerHTML=arr[this.index]
+		if(this.index<2){
+			
+			for(var j=0;j<=this.index;j++){
+				
+			img[j].src="img/灰五角星.png"
+			}
+			}
+			if(this.index>1){
+				for(var j=0;j<=this.index;j++){
+			
+			img[j].src="img/五角星.png"
+				}
+			}
+		
+		}
+		
+       img[i].onmouseout=function(){
+		   if(str==false){
+		   for(var i=0;i<img.length;i++){
+			   img[i].src="img/空五角星.png"
+			   span2.innerHTML='';
+			   }
+			   }
+		   }
+	   img[i].onclick=function(){
+		   str=true;
+		   }
+}
+  
+</script>

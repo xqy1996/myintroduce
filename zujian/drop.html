@@ -1,0 +1,61 @@
+
+<script src="js/$.js"></script>
+<style>
+.xl_div{
+	width:50px;
+	height:50px;
+	background:red;
+	position: absolute;
+	top:10px;;
+}
+</style>
+</head>
+
+
+<div id="drop_div"></div>
+<script>
+var timer=null;
+var len=5;
+var drop=document.getElementById('drop_div')
+var num=0;
+for(var i=0;i<len;i++){
+  var adiv=document.createElement('div');
+  adiv.className='xl_div'
+  adiv.style.left=i*60+'px';
+  drop.appendChild(adiv);
+}
+var allDiv=document.querySelectorAll('.xl_div')
+var con=document.querySelector('.jumbotron')
+con.onclick=function(){
+	if(parseInt(getStyle(allDiv.item(4),'top'))==10){
+
+	clearInterval(timer);
+	timer=setInterval(function(){
+	
+	doMove(allDiv.item(num),'top',20,500);
+	num++
+	if(num==len){
+		clearInterval(timer);
+		num=0;
+		}
+	},100)
+	}
+    if(parseInt(getStyle(allDiv.item(4),'top'))==500){
+		
+	clearInterval(timer);
+	timer=setInterval(function(){
+	
+	doMove(allDiv.item(num),'top',20,10);
+	num++
+	if(num==len){
+		clearInterval(timer);
+		num=0;
+		}
+	},100)
+		}
+	}
+
+
+</script>
+
+
