@@ -1,0 +1,60 @@
+web安全的概念太过于宽泛,这里主要介绍SQL注入，密码安全，cookie安全，XSS攻击与CRSF攻击
+
+<h2>一、SQL注入</h2>
+<span><h3>出现场景</h3>
+当开发登录模块的时候，如果我们使用是mysql操作php，并非使用mysqli、PDO等；当查询用户是否存在的SQL是这样写的，select * from user where name = 'admin' and password = '123456'; 这样写是以查询来的，但是会出现漏洞。居心叵测的人就可以使用万能密码xxx ' or 1 # 来破解上面的登录操作。
+</span><br/>
+<span>
+<h3>SQL注入原理</h3>
+用户在输入用户名的时候直接输入万能密码：xxx' or 1 #，那么最后拼接的SQL会变为：select * from user where name = 'xxx' or 1 # and password = '123456'; #符号代表SQL语法中的注释，上面的SQL就如同select * from user where name = 'xxx' or 1 。这样是可以查询到用户信息的，所以用户就登录了系统。
+</span>
+<h3>如何防范</h3>
+1、过滤非法字符：保证传来的字符串作为一个参数,而不是语句拼接的一部分。<br/>
+2、确保正确的数据类型：判断url或表单中传来的数据是否为想要的数据类型，如果不是，进行相应的数据类型转换。如使用方法intval() 提取变量中的整数值；如果参数错误，可以提示用户非法操作！<br/>
+3、使用正则表达式：设置用户的输入规则，限制用户不安规则瞎输<br/>
+4、使用预处理而不是拼接SQL语句：在上文我说过，使用mysql操作数据库会出现漏洞，避免出现这样的问题，可以使用mysqli、PDO来操作数据库。因为它们两都是将SQL预处理的，然后放入参数。<br/>
+<h2>二、密码安全</h2>
+<h3>场景</h3>
+假如某网站数据库泄露，那么用户信息就被一览无余了，如果这是用户的常用密码，那么坏人拿到密码就可以进行撞库操作，那么你买的12306的票就会被坏人退了。以前csdn和天涯就是使用明文来存储密码的，之后就出现的泄露事件。
+<h3>md5加密</h3>
+md5是一种加密算法，是不可逆的算法。我们可以将密码使用md5加密后进行存储。那么在判断的时候，需要将用户输入的数据加密再和表中的数据相对比。注：在php和mysql中都有md5函数。
+<h3>md5的不安全性</h3>
+上文说了要采用md5加密，怎么又不安全。网上有网站是在线md5解密的，他们是怎么解密的呢？因为他们一直在收集简单密码的md5值，形成越来越大的库。所以，如果密码是简单的纯数字，那么生成的md5值可能会被该网站解密。所以我们应该尽量把密码设置得难一些。
+<h3>md5加盐</h3>
+什么是md5加盐？在存储密码的时候，我们可以将真实的密码+“盐”之后再进行md5加密。“盐”可以是一个字符串（无规律），也可以是一个字段，比如说是姓名字段，也可是是单独的字段。 
+在判断用户是否存在的时候，我们先将输入的密码+“盐”，然后md5加密，在和数据库中的密码字段进行匹配。这样做会安全一些。
+<h2>三、cookie安全</h2>
+<h3>场景</h3>
+在某网站中，如果用户登录之后，如果使用的是cookie来存储用户的信息，然后是通过检测是否有这个cookie值来检测是否登录的。那么可能会出现cookie的安全问题。
+<h3>解决方式</h3>
+在登录成功时，除了只设置name项之外，我们可以多设置一项，但是这一项的值必须是随机的，没有任何规律可循的。下面的代码我是先定义了一个盐的变量，然后把登录后的用户名+盐的方式再进行md5加密，再定义一个cookie项。然后修改判断用户是否登录的代码。
+<h2>四、xss攻击</h2>
+<h3>场景</h3>
+在从事项目开发中，经常会碰到评论功能，如果我们将评论的内容直接存到表中，那么显示的时候就可能被用户输入的东西进行攻击。
+<h3>防范xss</h3>
+1、不需要展示HTML标签的表单内容,入库时直接转成实体显示<br/>
+2、可以用正则检测输入框必须为email等合法数据<br/>
+3、需要展示HTML标签的部分, 仅允许展示有限的标签,如p,a,img等 如strip_tags 来过滤html标签<br/>
+<h2>五、CRSF攻击</h2>
+<h3>场景</h3>
+假如博客园有个加关注的GET接口，blogUserGuid参数很明显是关注人Id，如下：
+http://www.cnblogs.com/mvc/Follow/FollowBlogger.aspx?blogUserGuid=4e8c33d0-77fe-df11-ac81-842b2b196315<br/>
+那我只需要在我的一篇博文内容里面写一个img标签：<br/>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">img </span><span style="color: #ff0000;">style</span><span style="color: #0000ff;">="width:0;"</span><span style="color: #ff0000;"> src</span><span style="color: #0000ff;">="http://www.cnblogs.com/mvc/Follow/FollowBlogger.aspx?blogUserGuid=4e8c33d0-77fe-df11-ac81-842b2b196315"</span>   <span style="color: #0000ff;">/&gt;</span><br/>
+那么只要有人打开我这篇博文，那就会自动关注我。
+<h3>解决方式</h3>
+1. 尽量使用POST，限制GET<br/>
+GET接口太容易被拿来做CSRF攻击，看第一个示例就知道，只要构造一个img标签，而img标签又是不能过滤的数据。接口最好限制为POST使用，GET则无效，降低攻击风险。
+当然POST并不是万无一失，攻击者只要构造一个form就可以，但需要在第三方页面做，这样就增加暴露的可能性。<br/>
+2. 浏览器Cookie策略<br/>
+IE6、7、8、Safari会默认拦截第三方本地Cookie（Third-party Cookie）的发送。但是Firefox2、3、Opera、Chrome、Android等不会拦截，所以通过浏览器Cookie策略来防御CSRF攻击不靠谱，只能说是降低了风险。
+PS：Cookie分为两种，Session Cookie（在浏览器关闭后，就会失效，保存到内存里），Third-party Cookie（即只有到了Exprie时间后才会失效的Cookie，这种Cookie会保存到本地）。
+PS：另外如果网站返回HTTP头包含P3P Header，那么将允许浏览器发送第三方Cookie。<br/>
+3. 加验证码<br/>
+验证码，强制用户必须与应用进行交互，才能完成最终请求。在通常情况下，验证码能很好遏制CSRF攻击。但是出于用户体验考虑，网站不能给所有的操作都加上验证码。因此验证码只能作为一种辅助手段，不能作为主要解决方案。<br/>
+4. Referer Check<br/>
+Referer Check在Web最常见的应用就是“防止图片盗链”。同理，Referer Check也可以被用于检查请求是否来自合法的“源”（Referer值是否是指定页面，或者网站的域），如果都不是，那么就极可能是CSRF攻击。
+但是因为服务器并不是什么时候都能取到Referer，所以也无法作为CSRF防御的主要手段。但是用Referer Check来监控CSRF攻击的发生，倒是一种可行的方法。<br/>
+5. Anti CSRF Token<br/>
+现在业界对CSRF的防御，一致的做法是使用一个Token（Anti CSRF Token）。<br/>
+<a href="#/article/">返回</a>

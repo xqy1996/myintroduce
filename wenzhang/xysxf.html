@@ -1,0 +1,115 @@
+<div id="cnblogs_post_body">首先要知道，我们为什么要写自适应的页面（响应式页面）<br/>
+<p>众所周知，电脑、平板、手机的屏幕是差距很大的，假如在电脑上写好了一个页面，在电脑上看起来不错，但是如果放到手机上的话，那可能就会乱的一塌糊涂，这时候怎么解决呢？以前，可以再专门为手机定制一个页面，当用户访问的时候，判断设备是手机还是电脑，如果是手机就跳转到相应的手机页面，例如百度的就是，手机访问www.baidu.com就会跳转到m.baidu.com，这样做简直就是费力不讨好的活，所以聪明的程序员开发了一种自适应写法，即<strong>一次开发，处处显示</strong>！这到底是一个什么样的神器东西呢，接下来就揭晓它的神秘面纱。</p>
+<h3>CSS3 的&nbsp;<span class="color_h1">@media</span> 查询</h3>
+<h4>定义和使用</h4>
+<p>使用 @media 查询，你可以针对不同的屏幕大小定义不同的样式。 @media 可以针对不同的屏幕尺寸设置不同的样式，特别是如果你需要设置设计响应式的页面，@media 是非常有用的。 当你重置浏览器大小的过程中，页面也会根据浏览器的宽度和高度重新渲染页面，这对调试来说是一个极大的便利。</p>
+<h4>CSS 语法</h4>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@media mediaType and|not|only (media feature) </span>{
+     <span style="color: #008000">/*</span><span style="color: #008000">CSS-Code;</span><span style="color: #008000">*/</span>
+}</pre>
+</div>
+<div class="code">
+<div>
+<h4>媒体类型（mediaType ）</h4>
+类型有很多，在这里不一一列出来了，只列出了常用的几个。
+<table class="table table-hover table-striped table-bordered table-striped table-responsive">
+<tbody>
+<tr class="active"><th style="width: 25%">值</th><th>描述</th></tr>
+<tr>
+<td>all</td>
+<td>用于所有设备</td>
+</tr>
+<tr>
+<td>print</td>
+<td>用于打印机和打印预览</td>
+</tr>
+<tr>
+<td>screen</td>
+<td>用于电脑屏幕，平板电脑，智能手机等。<strong>（最常用）</strong></td>
+</tr>
+<tr>
+<td>speech</td>
+<td>应用于屏幕阅读器等发声设备</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h4>媒体功能（media feature）</h4>
+<p>媒体功能也有很多，以下列出常用的几个</p>
+<table class="table table-hover table-striped table-bordered table-striped table-responsive">
+<tbody>
+<tr><th style="width: 25%">值</th><th>描述</th></tr>
+<tr>
+<td>max-width</td>
+<td>定义输出设备中的页面最大可见区域宽度</td>
+</tr>
+<tr>
+<td>min-width</td>
+<td>定义输出设备中的页面最小可见区域宽度</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ganhuo">开始编写响应式页面</h3>
+<p>编写之前呢，有几个要准备的工作</p>
+<h4>准备工作1：设置Meta标签</h4>
+<p>首先我们在使用 @media 的时候需要先设置下面这段代码，来兼容移动设备的展示效果：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="viewport"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="width=device-width, initial-scale=1.0, user-scalable=no"</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>这段代码的几个参数解释：</p>
+<ul class=" list-paddingleft-2">
+<li>width = device-width：宽度等于当前设备的宽度</li>
+<li>initial-scale：初始的缩放比例（默认设置为1.0，即代表不缩放）</li>
+<li>user-scalable：用户是否可以手动缩放（默认设置为no，因为我们不希望用户放大缩小页面）</li>
+</ul>
+<p>其他还有很多参数呢，想要了解的童鞋可以直接去<a class="btn btn-info" title="点我去百度" href="https://www.baidu.com/s?ie=UTF-8&amp;wd=meta%20viewport%20%E5%B1%9E%E6%80%A7" rel="noopener noreferrer" target="_blank">百度</a></p>
+<h4>准备工作2：加载兼容文件JS</h4>
+<p>因为IE8既不支持HTML5也不支持CSS3 @media ，所以我们需要加载两个JS文件，来保证我们的代码实现兼容效果：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">&lt;!--</span><span style="color: #008000">[if lt IE 9]&gt;
+　　&lt;script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"&gt;&lt;/script&gt;
+　　&lt;script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"&gt;&lt;/script&gt;
+&lt;![endif]</span><span style="color: #008000">--&gt;</span></pre>
+</div>
+<h4>准备工作3：设置IE渲染方式默认为最高(可选)</h4>
+<p>现在有很多人的IE浏览器都升级到IE9以上了，所以这个时候就有又很多诡异的事情发生了，例如现在是IE9的浏览器，但是浏览器的文档模式却是IE8 为了防止这种情况，我们需要下面这段代码来让IE的文档渲染模式永远都是最新的</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">http-equiv</span><span style="color: #0000ff">="X-UA-Compatible"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="IE=Edge，chrome=1"</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>这段代码后面加了一个chrome=1，如果用户的电脑里安装了 chrome，就可以让电脑里面的IE不管是哪个版本的都可以使用Webkit引擎及V8引擎进行排版及运算，如果没有安装，就显示IE最新的渲染模式。</p>
+<h4>代码实例</h4>
+<p>1、如果文档宽度<strong>小于等于 300px&nbsp;</strong>则应用花括号内的样式——修改body的背景颜色(background-color):</p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@media screen and (max-width: 300px) </span>{<span style="color: #ff0000">
+    body {
+        background-color</span>:<span style="color: #0000ff">lightblue</span>;
+    }<span style="color: #800000">
+}</span></pre>
+</div>
+<div class="example_code">从上面的代码可以看出，媒体类型是<strong>屏幕（screen）</strong>，使用 一个<strong> and</strong> 连接后面的媒体功能，这里写的是<strong> max-width:300px</strong> ，也就是说，当屏幕的<strong>最大宽度<span style="color: #ff0000"> 小于等于</span> 300px</strong> 的时候，就应用花括号里面的样式。 2、当文档宽度大于等于300px 的时候显示的样式</div>
+<div class="example_code">
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@media screen and (<span style="background-color: #ffff00"><strong><span style="color: #ff0000">min</span></strong></span>-width: 300px)</span>{<span style="color: #ff0000">
+    body {
+        background-color</span>:<span style="color: #0000ff">lightblue</span>;
+    }<span style="color: #800000">
+}</span></pre>
+</div>
+</div>
+<p>注意，这里的媒体功能使用的<strong>是 min-width 而不是 max-width</strong>，我已经标红高亮显示出来了。 3、当文档宽度大于等于 300px 并且小于等于500px 的时候显示的样式</p>
+<p>&nbsp;</p>
+<p>注意，这里使用了两个 and ，用来连接 两个媒体功能，一个用于限制最小，一个用于限制最大。</p>
+<hr>
+<h4>※ 需要注意的地方（划重点）</h4>
+<p>1、通过灵活应用以上技巧，开发出一个响应式页面，还不是近在咫尺的感觉_(:з」∠)_ 2、不要被 min-width 和 max-width 所迷惑，初学者很容易误以为 min-width 的意思是小于xxx的时候才应用，然而这就陷入误区了，其实它的意思是：<strong>当设置了 <span style="color: #ff0000">min</span>-width 的时候，文档的宽度如果<span style="color: #ff0000">小于</span>设置的值，就<span style="color: #ff0000">不会应用</span>这个区块里的CSS样式，所以 min-width 它才能实现<span style="color: #ff0000">大于等于</span>设置的值得时候，<span style="color: #ff0000">才会应用</span>区块里的CSS样式</strong>，max-width 也是如此。 3、或者这样想想，先看代码，这句代码的意思是大于等于 300px ，小于等于 500px的时候应用样式</p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@media screen and (min-width:300px) and (max-width:500px) </span>{
+    <span style="color: #008000">/*</span><span style="color: #008000"> CSS 代码 </span><span style="color: #008000">*/</span>
+}</pre>
+</div>
+<p><strong>min-width:300px</strong> 的作用是当文档宽度<strong>不<span style="color: #ff0000">小<span style="color: #000000">于</span></span></strong> 300px 的时候就应用 {} 里的CSS代码块，即大于等于 300px <strong>max-width:500px</strong> 的作用是当文档宽度<strong>不<span style="color: #ff0000">大</span>于</strong>&nbsp;500px 的时候就应用{} 里的CSS代码块，即小于等于 500px 是不是这样想就容易明白了些呢？ 4、这里有个弯很难绕过来，自己<strong>多动手做做实验，多动脑想想，就豁然开朗了</strong>。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>

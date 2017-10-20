@@ -1,33 +1,38 @@
-
-
-   
        <input id="article_Search" type="text" placeholder="Search">
    
        <button id="sum" type="button" class="btn btn-default">搜索</button>
-
-
 <hr/>
 <div class="article">
 <a href="#/article/yxl/"><h4>原型链的理解</h4></a>
-<div id="articleContent1"></div>
+<div id="articleContent1" class="articleContent"></div>
 </div>
 <div class="article">
 <a href="#/article/zyyl/"><h4>作用域链的理解</h4></a>
-<div id="articleContent2"></div>
+<div id="articleContent2" class="articleContent"></div>
 </div>
 <div class="article">
 <a href="#/article/llqky/"><h4>解决谷歌浏览器本地ajax跨域访问问题</h4></a>
-<div id="articleContent3"></div>
+<div id="articleContent3" class="articleContent"></div>
 </div>
 <div class="article">
 <a href="#/article/jc/"><h4>JS实现继承</h4></a>
-<div id="articleContent4"></div>
+<div id="articleContent4" class="articleContent"></div>
+</div>
+<div class="article">
+<a href="#/article/webaq/"><h4>web安全</h4></a>
+<div id="articleContent5" class="articleContent"></div>
+</div>
+<div class="article">
+<a href="#/article/xysxf/"><h4>响应式写法</h4></a>
+<div id="articleContent6" class="articleContent"></div>
 </div>
 <script>
        delArticle("#articleContent1","wenzhang/yxl.html")
 	   delArticle("#articleContent2","wenzhang/zyyl.html")
 	    delArticle("#articleContent3","wenzhang/llqky.html")
 		delArticle("#articleContent4","wenzhang/jicheng.html")
+		delArticle("#articleContent5","wenzhang/webaq.html")
+		delArticle("#articleContent6","wenzhang/xysxf.html")
 	    function ajaxload(local,where){
 	      htmlobj=$.ajax({url:local,async:false});
 	      $(where).html(htmlobj.responseText);

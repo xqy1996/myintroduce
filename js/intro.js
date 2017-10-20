@@ -37,8 +37,7 @@
 		 $scope.skil='';
 		$scope.addjl=function(){
 			var obj={
-				
-				time:$scope.time,
+            	time:$scope.time,
 				name:$scope.name,
 				intr:$scope.intr
 				}
@@ -46,6 +45,9 @@
 			/*$('#t2').append('<thead><tr><th>'+$scope.xm.time+'</th>'+
                       '<th colspan="2">'+$scope.xm.name+'</th></tr></thead>'+
                         '<tbody><tr><td></td><td colspan="2">'+$scope.xm.intr+'</td></tr></tbody>')*/
+			$scope.time="";
+			$scope.name="";
+			$scope.intr="";
 			} 
        $scope.addjn=function(){
 		   num++;
