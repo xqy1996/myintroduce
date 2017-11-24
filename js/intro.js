@@ -1,9 +1,9 @@
-// JavaScript Document
  var num=7;
    var myApp=angular.module('myApp',[]);
-   myApp.controller('myController',['$scope','$compile',function($scope,$compile){
+   myApp.controller('myController',['$scope','$compile','$window',function($scope,$compile,$window){
+	     console.log($window.localStorage['person'])
 	     $scope.index=2;
-	     $scope.person={
+	     $scope.person=$window.localStorage['person']?JSON.parse($window.localStorage['person']) : {
 			   name:"徐钦扬",
 			   sex:'男',
 			   bir:'1996.7.31',
@@ -11,7 +11,7 @@
 			   loc:'成都',
 			   jg:'四川',
 			   tel:'13882710062',
-			   stu:'本科',
+			   stu	:'本科',
 			   col:'重庆邮电大学',	 
 			   maj:'软件工程',
 			   ema:'604888149@qq.com',
@@ -32,8 +32,10 @@
 			 name:'球队管理网站',
 			 intr:'负责前台页面的搭建与后台的登陆，前端界面使用Bootstrap与使用jquery的AJAX实现单一界面的应用程序，后端使用Sping+SpingMVC+Mybaits框架制作，数据展示，数据沟通的模块，在小组负责前端技术指导。'
 			 }],
-			 }
-		 
+			 };
+		 $scope.save = function() {
+         $window.localStorage['person'] = angular.toJson($scope.person);
+      }
 		 $scope.skil='';
 		$scope.addjl=function(){
 			var obj={
@@ -42,9 +44,8 @@
 				intr:$scope.intr
 				}
 		  $scope.person.xm.push(obj)
-			/*$('#t2').append('<thead><tr><th>'+$scope.xm.time+'</th>'+
-                      '<th colspan="2">'+$scope.xm.name+'</th></tr></thead>'+
-                        '<tbody><tr><td></td><td colspan="2">'+$scope.xm.intr+'</td></tr></tbody>')*/
+		  $scope.save();
+		  console.log($window.localStorage['person'])
 			$scope.time="";
 			$scope.name="";
 			$scope.intr="";
@@ -56,6 +57,7 @@
 		$scope.del=function(a){
 			
 			$scope.person.xm.splice(a,1)
+			 $scope.save();
 			}	
 	      
 	   }])
